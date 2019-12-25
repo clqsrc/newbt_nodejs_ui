@@ -476,5 +476,35 @@ function Functions_addMonths(y,m,d, months){
 }//
 
 
+//读取cookies //来自 https://www.cnblogs.com/limeiky/p/6927305.html 不一定完善，不过本程序范围内可用
+//function getCookie(name)
+function Functions_getCookie(name) //2019.09.19
+{
+    var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
 
+    if(arr=document.cookie.match(reg))
+
+    return unescape(arr[2]);
+    else
+    return null;
+}//
+
+//取全路径文件名中的无路径文件名
+function Functions_ExtractFileName(filePath){
+    //var filePath = $(this).val(); //文件名//全路径
+
+
+    //var arr = filePath.split('\\');
+    //js中以多个字符拆分字符串
+    var arr = filePath.split(/[\\\/]/); //这句话的意思其实就是按字符 "\" 和 "/" 拆分为数组，只是加了转义符。另外 js 中是可以用多个分隔箱号的，所以就形成了这个怪异的式子
+
+    if (arr.length >= 1) {
+        var fileName = arr[arr.length-1];
+
+        return fileName;
+    }
+
+    return "";
+
+}//
 
