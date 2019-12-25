@@ -1,0 +1,260 @@
+<html>
+    <meta name="viewport" content="width=device-width, 
+    initial-scale=1.0, 
+    maximum-scale=1.0, 
+    user-scalable=no">
+<head>
+
+    <meta charset="utf-8">
+    <script src="jquery-1.11.3.min.js"></script>
+    <script src="panel.js"></script>
+    <script src="center_panel.js"></script>
+    <script src="center_panel_v2.js"></script>
+    <script src="free_panel.js"></script>
+    <script src="button.js"></script>
+    <script src="edit.js"></script>
+    <script src="arrow.js"></script>
+    <script src="dialogs.js"></script>
+    <script src="dialogs_date.js"></script>
+    <script src="functions.js"></script>
+
+    <style type="text/css">
+        divtest {
+        background-color:red;
+        color: #fff;
+        text-align: center; 
+        }
+
+
+    </style>
+
+</head>
+
+<body>
+    <div style="background-color:#333;"></div>
+
+    <script>
+    //$("#aaa").t   
+
+    function f1() {
+
+        _alert("aaa");
+
+    }//
+
+    _alert_date();
+    
+    var s = CreatePanel("id1");
+    document.write(s);
+
+    var o = new Panel("id2", null, "b");
+    o.Create();
+
+    $("#" + o.name).css({"padding": "8px"});
+        
+    var o2 = new Panel("id3", o, "b");
+    o2.Create();
+
+    $("#" + o2.name).click(
+
+        function(){
+            //alert("ok"); //这个居然后造成 chrome 死翘翘
+            //这样不行//
+            //$("#" + this.name).toggle();
+            //dom.toggle();
+            ////$("#" + _this.name).toggle(); //可以用微信小程序的方法取得 this
+            //$(this).css({"background-color": "red"});
+            //$("#" + o2.name).toggle();
+            $("#" + o2.name).css({"background-color": "#ccc"});
+            //o2.width("100px");
+        }
+
+    );   
+    
+    o2.width("100px");
+
+    var o3 = new Panel("id4", o, "b");
+    o3.Create(); 
+    o3.width("100px");
+    o3.height("200px");
+    $("#" + o3.name).css({"background-color": "#ccc"});   
+
+    var btn1 = new Button("btn1", o, "b");
+    btn1.Create(); 
+    btn1.width("100px");
+    btn1.height("200px");
+    $("#" + btn1.name).css({"background-color": "#ccc"});   
+
+    //---------------------------------------
+    //下面实现一个传统输入界面
+    var pnlInput = new Panel("pnlInput", null, "b");
+    pnlInput.Create(); 
+    //pnlInput.width("100px");
+    pnlInput.height("200px");
+    $("#" + pnlInput.name).css({"background-color": "#ccc"}); 
+
+    var pnlTop = new Panel("pnlTop", pnlInput, "b");
+    pnlTop.Create(); 
+    //pnlTop.width("100px");
+    //pnlTop.autowidth();
+    pnlTop.width("100%");
+    pnlTop.height("60px");
+    pnlTop.space_width("4px");
+    $("#" + pnlTop.name).css({"background-color": "#3c3c3c"});       
+
+    var sp2 = new Panel("sp2", pnlTop, "b"); //放一个分隔块
+    sp2.Create(); 
+    sp2.width("300px");
+    sp2.height("48px");
+    $("#" + sp2.name).css({"background-color": $("#" + pnlTop.name).css("background-color")});    
+    
+    var edit1 = new Edit("edit1", pnlTop);
+    edit1.Create(); 
+    edit1.width("200px");
+    edit1.height("48px", true);
+    edit1.space_width("8px");
+    $("#" + edit1.name).css({"background-color": "#999"});      
+    $("#" + edit1.name + "_border").css({"background-color": "#999"});  //目前的实现中编辑器边框的也要设置一下    
+        
+    var btnOk = new Button("btnOk", pnlTop, "确定");
+    btnOk.Create(); 
+    btnOk.width("100px");
+    btnOk.height("48px", true);
+    $("#" + btnOk.name).css({"background-color": "#666"});      
+
+    $("#" + btnOk.name).click(
+
+        function(){
+            $("#" + edit1.name).val("aaa中文");
+            _alert("新的 alert 1");
+            //_confirm("新的 _confirm", function(){_alert("新的 alert");}); //ok
+            _confirm("新的 _confirm", f1);
+        }
+
+    );       
+
+    var sp1 = new Panel("sp1", pnlTop, "b"); //放一个分隔块
+    sp1.Create(); 
+    sp1.width("10px");
+    sp1.height("48px");
+
+    //-------------------------------
+    //左边树形//其实一般是用绝对定位来做的 例如 vscode 就是
+    var pnlLeft = new Panel("pnlLeft", pnlInput, "b");
+    pnlLeft.Create(); 
+    //pnlTop.width("100px");
+    //pnlTop.autowidth();
+    pnlLeft.width("300px");
+    pnlLeft.autoheight();
+    pnlLeft.space_width("4px");
+    $("#" + pnlLeft.name).css({"background-color": "#252525"});       
+
+    var btntree1 = new CenterPanel("btntree1", pnlLeft, "b"); //下拉框
+    btntree1.Create(); 
+    btntree1.width("300px");//autowidth();
+    btntree1.height("48px", true);   
+    btntree1.set_background_color("#252525", "#353535");
+    //btntree1.set_background_color("red", "blue"); //test1
+
+
+    
+    ///*    
+    //css 画三角形 https://www.cnblogs.com/v-weiwang/p/5057588.html
+    var btntree1_img = new Panel("btntree1_img", btntree1, "b"); //下拉框
+    btntree1_img.Create(); 
+    btntree1_img.width("12px");
+    btntree1_img.height("12px"); 
+    $("#" + btntree1_img.name).css(
+        {
+            //"background-color": "#252525", 
+            "background-color": "transparent", 
+            //"border-width": "100px 100px 100px 100px",
+           // "border-color": "red forestgreen blue cyan",
+           //"border-width": "24px",
+           "border-width": "6px", //宽度的一半就可以了,要不反而不对
+            "border-color": "transparent transparent transparent #555",
+            "vertical-align": "middle", //居中的元素必须有这个属性
+            "border-style": "solid"
+        }
+        );   
+    //*/    
+    $("#" + btntree1.name).append("用户权限"); //加完图标再加标题
+
+    var btntree1_img2 = new Arrow("btntree1_img2", btntree1); //箭头图标
+    //btntree1_img2._color = "red";
+    btntree1_img2._width = "32px";
+    btntree1_img2.Create();
+    btntree1_img2.draw_down();
+    btntree1_img2.draw_right();
+    
+
+    var btntree2 = new CenterPanel("btntree2", pnlLeft, "b"); //下拉框
+    btntree2.Create(); 
+    btntree2.width("300px");//autowidth();
+    btntree2.height("48px", true);    
+    btntree2.set_background_color("#252525", "#353535");
+    $("#" + btntree2.name).append("修改密码");
+
+    var btntree3 = new CenterPanel("btntree3", pnlLeft, "b"); //下拉框
+    btntree3.Create(); 
+    btntree3.width("300px");//autowidth();
+    btntree3.height("48px", true);   
+    btntree3.set_background_color("#252525", "#353535");
+    $("#" + btntree3.name).append("用户权限2"); //加完图标再加标题
+
+    //事件要操作其他人,最好放在最后
+    $("#" + btntree1.name).click( //这个会比默认点击事件后执行,因为那个先写的
+
+        function(){
+            //图片旋转 90 度
+            var r = 90; 
+            if (btntree1.active)
+            $("#" + btntree1_img.name).css('transform', 'rotate(' + r + 'deg)');
+
+            r = 0;
+            if (!btntree1.active) $("#" + btntree1_img.name).css('transform', 'rotate(' + r + 'deg)');
+
+            //return false;
+        }
+
+    );  
+
+    var group1 = new Array(btntree1, btntree2, btntree3);
+
+    for (var i=0; i<group1.length; i++) {
+        var item = group1[i];
+
+        $("#" + item.name).click( //这个会比默认点击事件后执行,因为那个先写的
+
+            function(){
+                for (var i=0; i<group1.length; i++) {
+                    var item2 = group1[i];
+
+                    item2.set_background_color("red", item2.active_background_color);
+
+                }
+
+                //item.set_background_color("red", item2.active_background_color);
+                //$("#" + this.name).css({"background-color": "#252525"}); //这样不是行
+                ////$(this).css({"background-color": "#252525"});
+
+                $("#" + this._this.name).css({"background-color": "#252525"});
+
+                //$("#" + this.id).css({"background-color": "#252525"}); //ok
+
+                return false;
+            }
+
+            ); 
+
+    }
+    
+        
+    </script>
+
+</body>
+
+
+
+
+</html>
