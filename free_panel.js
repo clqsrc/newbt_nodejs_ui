@@ -35,7 +35,7 @@ function FreePanel(_name,_parent){
 
         var s = CreatePanel(_name);
         if (null == _parent)
-        document.write(s);
+        $(document.body).append(s); //不能用 document.write(s); 那样会清空整个 html 因为文档流已经结束了
         else $("#" + _parent.name).append(s);
 
         var dom = $("#" + _name);
