@@ -97,7 +97,7 @@ function CenterPanel_v2(_name,_parent){
             "display": "box",
             "display": "-webkit-flexbox", //从上面的链接看,对于支持 android 2.1-4.3 来说是必须的
             "display": "flexbox",
-            "display": "flex", //目前最新的是这个,一定不能少 //2019.03.29
+            "display": "flex" //目前最新的是这个,一定不能少 //2019.03.29
         });
         //*/
 

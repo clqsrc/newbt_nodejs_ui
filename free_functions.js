@@ -31,7 +31,7 @@ function ScreenWidth_html()
     var w = document.documentElement.clientWidth; //这个是网页的宽度//ie6 不支持
     if (w<1) 
     {
-        //w = $(window).width();
+        //w = $(window).width(); //这个是不行的，ie6 和 firefox 应该都不支持
         //document.documentElement 得到的是 html 
         //w = window.outerWidth;
         //w = document.documentElement.clientWidth;
@@ -98,7 +98,94 @@ function FullScreen(div_id)
     $("#" + div_id).css({"width": "100%", "height":"100%"});
 }//
 
+//--------------------------------------------------------
+//设置窗体大小变化时的事件
+//1.0
+function SetHtmlOnSizeFunction(func)
+{
+    //窗口大小改变时，执行//ie6 也支持//只支持 window 不支持普通 div
+    // $(window).resize(function () {
+    //     //执行代码块
+	// 	//MenuHeight();
+		
+	// 	Html_OnSize();
+    // });	
+    
+    $(window).resize(func);
 
+}//
+
+//因为普通 div 不支持 onsize，所以需要一系列的函数来支持
+//2.1
+function AddOnSizeObj(list, obj, func)
+{
+    if (list == null) list = new Array();
+
+    if (func){ //要执行的函数可以在这里设置也可以先设置了，再加入 list
+        obj.onsize = func;
+    }
+
+    list.push(obj);
+
+    //----
+    //test 可知，$(window).resize 和 $(){} 是不同的，只有最后一次起作用//不对，也是多次起作用的
+    //window.onresize与$(window).resize() 是区别是前者只有最后一个起作用，后面所有的都会起作用。所以 2.1 和 2.2 是没有必要的，最好是使用 3.0 函数，使用 obj 自己的 this 来传参数
+    //不过 2.1, 2.2 方式是通用的，还是保留作为参考吧
+    $(window).resize(function () {
+        obj.onsize();
+    });
+    //----
+
+    return list;
+}//
+
+//设置窗体大小变化时的事件//多控件版本
+//2.2
+function SetHtmlOnSizeFunction_List(list, func)
+{
+    //窗口大小改变时，执行//ie6 也支持//只支持 window 不支持普通 div
+    $(window).resize(function () {
+        //执行代码块
+
+        for (var i=0; i<list.length; i++){
+
+            var obj = list[i];
+            
+            if (func){
+                func(list[i]);
+            }
+
+            if (obj.onsize) obj.onsize(); //如果控件本身绑定有事件则也执行一下
+
+        }//for
+        
+    });	
+    
+    //$(window).resize(func);
+
+}//
+
+//3.0 版本，只用一个函数就可以了，用 obj 的 this 来传参数，这是目前最简单的版本
+//唯一的要求是 obj 必须有 onsize 函数
+function AddHtmlOnSizeFunctionObj(obj)
+{
+    //窗口大小改变时，执行//ie6 也支持//只支持 window 不支持普通 div
+    $(window).resize(function () {
+        //执行代码块
+		//MenuHeight();
+		
+        //Html_OnSize();
+        obj.onsize();
+    });	
+    
+    //$(window).resize(func);
+
+}//
+
+
+//使用示例:
+
+//--------------------------------------------------------
 
 //取 div 宽度
 function Div_GetWidth(div_id)
@@ -179,6 +266,7 @@ function HtmlBody_FullScreen_free()
 //取 div 的位置//用于其他 div 相对于它定位
 function Div_GetLeft(div_id)
 {
+    //在 div 的 onclick 事件中会有 bug //jquery-1.11.3.min.js 下时
     var l = $("#" + div_id).offset().left;
     var t = $("#" + div_id).offset().top;
 
@@ -193,6 +281,104 @@ function Div_GetTop(div_id)
     return t;
 }//
 
+
+//--------------------------------------------------------
+//--------------------------------------------------------
+//下面的和绝对定位无关，只是用于 ui 的方便性函数
+
+//panel 这些 ui 库默认点击事件是不传递的，所以要让 a 标签起作用的话要打开它
+function UI_EnableUrlClick(panel) 
+{
+
+    //p = panel.parent;
+    p = panel;
+
+    //return;
+
+    //for (var i=0;i<1000;i++){ //防止死循环//var 声明还是要的，否则会修改外面的变量，这是 js 非常特殊的地方!!!
+    for (var i=0;i<1000;i++){ //防止死循环
+
+        if (!p) break;
+        if (null == p) break;
+
+        p.click_parent = true;
+
+        p = p.parent;
+    }//
+
+}//
+
+//设置鼠标为按钮一样的
+function UI_SetCursorAsButton(panel) 
+{
+    $("#" + panel.name).css({"cursor":"default"});
+}//
+
+//自由定位//左上
+//function UI_free_pos(div_id, x, y, parent_div_id)
+function UI_free_pos(div_id, x, y)
+{
+    $("#" + div_id).css({"position": "absolute"});
+    $("#" + div_id).css({"left": x});
+    $("#" + div_id).css({"top": y});
+
+    //一般还要设置父节点
+    // if (parent_div_id){
+    //     //$("#" + this.parent.name).css({"position": "absolute"});
+    //     $("#" + parent_div_id).css({"position": "relative"}); //父节点为 absolute 的时候效果还不一样，那样的话就是基于自己的正常位置偏移了，比较古怪
+    // }
+
+    // if (parent_div_id){ //如果设置了父亲节点已经是 absolute 时还要再改
+    //     //$("#" + this.parent.name).css({"position": "absolute"});
+    //     $("#" + div_id).css({"position": "relative"}); //父节点为 absolute 的时候效果还不一样，那样的话就是基于自己的正常位置偏移了，比较古怪
+    // }
+
+    //感觉都不好，这样如果父级本身为 absolute 时候又被改了位置，还不如直接计算位置好了//否则父节点被修改的后果不可预料
+
+    //当 父元素 的 position 设为 relative 时，
+    //其子元素的 absolute position 是按照父元素的相对位置来的 
+    //否则就是相对于整个文档的位置，官方说法是 //absolute :生成绝对定位的元素， 相对于最近一级的 定位不是 static 的父元素来进行定位
+
+    //其中 static 是 position 的默认值。没有定位，元素出现在正常的流中
+
+}//
+
+//设置标题为按钮一样的//上下、左右都居中
+function UI_SetCaptionAsButton(div_id, _caption) 
+{
+    var caption_id = div_id + "_caption";
+    //$("#" + panel.name).css({"cursor":"default"});
+    //var div_id = panel.name;
+
+    $("#" + div_id).html("<span id='" + caption_id +"'>" + _caption + "</span>"); //其实就是加内部 html
+
+    //取 div 宽度//客户端
+    var w = Div_GetWidth_client(div_id);
+    var h = Div_GetHeight_client(div_id);    
+    var x = Div_GetLeft(div_id);   
+    var y = Div_GetTop(div_id);   
+
+    var w2 = Div_GetWidth_client(caption_id);
+    var h2 = Div_GetHeight_client(caption_id);    
+
+
+    var x2 = (w - w2) / 2;
+    var y2 = (h - h2) / 2;
+
+    //使用 position: absolute 进行定位时，本身就是相对于上一级的定位了，只不过这个上一级并不一定是上层父节点，而是上一个 absolute/relative/fixed/inherit 节点
+    //所以这里是不需要再进行偏移了的，除非父节点是 position:static 
+    //static 为 position 默认值。没有定位，元素出现在正常的流中（忽略 top, bottom, left, right 或者 z-index 声明）。
+    //参考 https://www.w3school.com.cn/cssref/pr_class_position.asp
+    ////x2 = x2 + x;     
+    ////y2 = y2 + y;
+
+    //
+    // UI_free_pos(caption_id, 0, 0, div_id);
+    // UI_free_pos(caption_id, x, y, div_id);
+    UI_free_pos(caption_id, 0, 0);
+    UI_free_pos(caption_id, x2, y2);
+
+}//
 
 
 

@@ -478,7 +478,8 @@ function Functions_addMonths(y,m,d, months){
 
 //读取cookies //来自 https://www.cnblogs.com/limeiky/p/6927305.html 不一定完善，不过本程序范围内可用
 //function getCookie(name)
-function Functions_getCookie(name) //2019.09.19
+//2020.01.27 目前已知无法处理重复的 key 的问题,这个可以认为是取到了第一个
+function Functions_getCookie_v1(name) //2019.09.19
 {
     var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
 
@@ -487,7 +488,87 @@ function Functions_getCookie(name) //2019.09.19
     return unescape(arr[2]);
     else
     return null;
-}//
+} //
+
+//还是取最后一个才好//不对，从测试的情况下看，还是应该取第一个,不过 firefox 会只显示最后一个，这和后台程序取到的是不同的
+function Functions_getCookie(name) //2020
+{
+    //return Functions_getCookie_v1(name);
+    //return Functions_getCookie_last(name);
+    return Functions_getCookie_first(name); //
+} //
+
+
+//和上面的差不多，不过会取到最后一个
+function Functions_getCookie_last(name) {
+
+    var value = "";
+
+    var strCookie = document.cookie;    // 获取cookie字符串
+
+    var arrCookie = strCookie.split(";");        //从分号的位置 分割字符串strCookie为字符串数组
+
+    //遍历cookie数组，处理每个cookie对
+    for (var i = 0; i < arrCookie.length; i++) {
+
+        var arr = arrCookie[i].split("=");           //从 = 的位置 分割每对cookie
+
+        //if (arr[0] == "userId") {      //如果前面是 userId 就是找到了
+        //if (arr[0] == name) {      //如果前面是 userId 就是找到了
+
+        var key = (arr[0].trim()); //这样取前面可能会有空格，所以要再 trim 一下
+
+        if (key == name) {      //如果前面是 userId 就是找到了
+
+            value = arr[1];         //将后面的值赋给 userId ，跳出循环
+
+            //break; //不跳出，就是找最后一个了
+
+        }//if key
+    } //for
+
+    //alert(userId);
+
+    return value;
+
+} //
+
+//和上面的差不多，不过会取到第一个
+function Functions_getCookie_first(name) {
+
+    var value = "";
+
+    var strCookie = document.cookie;    // 获取cookie字符串
+
+    var arrCookie = strCookie.split(";");        //从分号的位置 分割字符串strCookie为字符串数组
+
+    //遍历cookie数组，处理每个cookie对
+    for (var i = 0; i < arrCookie.length; i++) {
+
+        var arr = arrCookie[i].split("=");           //从 = 的位置 分割每对cookie
+
+        //if (arr[0] == "userId") {      //如果前面是 userId 就是找到了
+        //if (arr[0] == name) {      //如果前面是 userId 就是找到了
+
+        var key = (arr[0].trim()); //这样取前面可能会有空格，所以要再 trim 一下
+
+        if (key == name) {      //如果前面是 userId 就是找到了
+
+            value = arr[1];         //将后面的值赋给 userId ，跳出循环
+
+            break; //不跳出，就是找最后一个了
+
+        } //if key
+    } //for
+
+    //alert(userId);
+
+    return value;
+
+} //
+
+
+
 
 //取全路径文件名中的无路径文件名
 function Functions_ExtractFileName(filePath){
@@ -508,4 +589,30 @@ function Functions_ExtractFileName(filePath){
 
 }//
 
+//txt 转换为 json//ie6,7,8 是没有 json 对象的
+function Functions_TxtToJson(str){
+
+    //var obj = $.parseJSON( jsonstr ); //jQuery.parseJSON(jsonstr),可以将json字符串转换成json对象 
+    var obj = $.parseJSON(str);
+
+    return obj;
+}//
+
+//js 数组的方便性函数而已
+//加一个元素到动态数组中
+function Functions_AddToList(list, item)
+{
+    if (list == null) list = new Array();
+
+    list.push(item);
+
+    return list;
+}//
+
+function AddToList(list, item)
+{
+
+    return Functions_AddToList(list, item);
+
+}//
 

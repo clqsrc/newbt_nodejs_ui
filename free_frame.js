@@ -31,6 +31,9 @@ function FreeFrame(_name,_parent){
 
     var isDrop = false; //移动状态的判断鼠标按下才能移动
 
+    //var CanMoveWindow = true; //本窗口是否能移动，一般是可以的，特殊需要时可固定
+    this.CanMoveWindow = true; //本窗口是否能移动，一般是可以的，特殊需要时可固定
+
     //--------------------------------------------
     //定义Person类的公开方法(特权方法)，类的公开方法的定义方式是：”this.functionName=function(){.....}“
     this.Create = function(){
@@ -59,13 +62,13 @@ function FreeFrame(_name,_parent){
 
         this.free_pos("0px", "0px");
 
-        //test 初始化
-        this.init1();
+        //初始化子窗口等子元素
+        this.init_controls();
 
     }//
 
-    //test 初始化
-    this.init1 = function(){
+    //初始化子窗口等子元素
+    this.init_controls = function(){
 
         var _this_control = this; //这个控件本身//可以在各个事件中用
 
@@ -132,6 +135,9 @@ function FreeFrame(_name,_parent){
         //var _this = this; //事件里不能直接用 this //奇怪，这个居然有影响
         
         dom_title.onmousemove = function(e) {//document.onmousemove = function(e) {//dom_title.onmousemove = function(e) {
+
+            if (false == CanMoveWindow) return; //设置为不能移动的话，直接跳出就行了
+
             //是否为可移动状态                　　　　　　　　　　　 　　　　　　　
             if(this.isDrop) {　　　//if(this.isDrop) {//if(_this.isDrop) {//其实这样写是有问题的，这时候的 this 不是 freeframe 而是 dom_title
                 
@@ -190,6 +196,8 @@ function FreeFrame(_name,_parent){
         o.set_background_color_Transparent(); 
         
         o.add_html("<canvas id='"+ o.name +"_canvas'>.</canvas>"); //ie6 应该是不支持的
+
+        o.canvas_id =  o.name +"_canvas"; //加上属性，以便调用者重绘
 
         //canvas = $("#" + o.name +"_canvas");
         canvas = $("#" + o.name +"_canvas")[0]; //注意要转换成 js 原生变量
@@ -349,6 +357,7 @@ function FreeFrame(_name,_parent){
         this.clientPanel.width(w + "px" );
 
         //--------------------------------------------------------
+        //关闭按钮的位置
         this.btnClose.free_pos( (w - 22) + "px", "2px");
         //this.btnClose.set_background_color("#ff0000", "#ffffff");  
         this.btnClose.width("20px");
