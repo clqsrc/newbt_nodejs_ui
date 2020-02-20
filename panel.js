@@ -257,6 +257,11 @@ function Panel(_name,_parent){
 
     }//   
     
+    this.html = function(_html) {
+        $("#" + this.name).html(_html); //设置内部的 html
+
+    }//   
+    
     //内容居中
     this.set_text_center = function() {
         $("#" + this.name).css({"text-align":"center"});

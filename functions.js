@@ -479,6 +479,7 @@ function Functions_addMonths(y,m,d, months){
 //读取cookies //来自 https://www.cnblogs.com/limeiky/p/6927305.html 不一定完善，不过本程序范围内可用
 //function getCookie(name)
 //2020.01.27 目前已知无法处理重复的 key 的问题,这个可以认为是取到了第一个
+//2020.01.31 根据 https://www.cnblogs.com/r00tuser/p/7993509.html 的说法，只有 python 是取后者的，其他的基本上是取前者 
 function Functions_getCookie_v1(name) //2019.09.19
 {
     var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
@@ -589,6 +590,25 @@ function Functions_ExtractFileName(filePath){
 
 }//
 
+//取全路径文件名中的无路径文件名//后缀
+function Functions_ExtractFileExt(filePath){
+    //var filePath = $(this).val(); //文件名//全路径
+
+
+    //var arr = filePath.split('\\');
+    //js中以多个字符拆分字符串
+    var arr = filePath.split(/[.]/); //这句话的意思其实就是按字符 "\" 和 "/" 拆分为数组，只是加了转义符。另外 js 中是可以用多个分隔箱号的，所以就形成了这个怪异的式子
+
+    if (arr.length >= 1) {
+        var fileName = arr[arr.length-1];
+
+        return fileName;
+    }
+
+    return "";
+
+}//
+
 //txt 转换为 json//ie6,7,8 是没有 json 对象的
 function Functions_TxtToJson(str){
 
@@ -614,5 +634,44 @@ function AddToList(list, item)
 
     return Functions_AddToList(list, item);
 
+}//
+
+//整数转换为字符串
+function IntToStr(v)
+{
+    return String(v);
+}
+
+function StrToInt(v)
+{
+    return parseInt(v);
+}
+
+//同 golang 版本
+var _g_id_Now_id = 0; //Now_id 用的全局变量，千万不要混用
+function Now_id() 
+{
+
+    //不足两位的，前面加 0
+    function _str2(v) {
+
+        return StrToInt(v) < 10 ? "0" + v : IntToStr(v);
+    }//
+
+    var date = new Date();
+
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var _date = date.getDate();
+    var hour = date.getHours();// < 10 ? "0" + date.getHours() : date.getHours();
+    var minute = date.getMinutes();// < 10 ? "0" + date.getMinutes() : date.getMinutes();
+    var second = date.getSeconds();// < 10 ? "0" + date.getSeconds() : date.getSeconds();
+    var milliSeconds = date.getMilliseconds();
+
+    var currentTime = year + _str2(month) + _str2(_date) + _str2(hour) + _str2(minute) + _str2(second) + '_' + milliSeconds + "_" + _g_id_Now_id;
+
+    _g_id_Now_id = _g_id_Now_id + 1;
+
+    return currentTime;
 }//
 
