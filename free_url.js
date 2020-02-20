@@ -65,7 +65,28 @@ function FreeUrl(_url, _title,  _name,_parent){
 
     }//
 
-    
+    //设置字体颜色，并且不要下划线这些
+    //目前来说改不了
+    /*
+    // 就设置 a 和 a:hover 就可以了,否则会在 firefox 系下出错 
+    a1:visited {	color: #000000;	text-decoration: none;}
+    a:hover {	color: #FF3300;	text-decoration: underline;}
+    a1:active {	color: #FF3300;	text-decoration: underline;}
+    a1:link { 	color: #000000;	text-decoration: none;}
+    a{	color: #000000;	text-decoration: none;}
+    */
+    this.SetAsPanelAndFontColor = function(color){
+
+        //在JQuery中如何更改伪类:hover的CSS属性//无法用 jquery 的 css
+
+        //$("#" + this.name).css({"position": "absolute"});
+        $("#" + this.name).css({"color": color});
+        $("#" + this.name).css({"text-decoration":"underline"});
+
+
+    }//
+
+       
 
     //----------------------------------------
     //this.prototype = new Panel();

@@ -52,6 +52,7 @@ function ScreenHeight()
 }//
 
 //支持 ie6
+//这在 firefox 下其实有问题//所以最好是先将 body 的高度设置为 100%,实际上名为 html 的特殊元素也要设置
 //页面并不一定占满全部屏幕，所以一般是用的这个
 function ScreenHeight_html()
 {
@@ -312,6 +313,12 @@ function UI_EnableUrlClick(panel)
 function UI_SetCursorAsButton(panel) 
 {
     $("#" + panel.name).css({"cursor":"default"});
+}//
+
+//设置鼠标为 url 链接一样的
+function UI_SetCursorAsUrl(panel) 
+{
+    $("#" + panel.name).css({"cursor":"pointer"});
 }//
 
 //自由定位//左上
