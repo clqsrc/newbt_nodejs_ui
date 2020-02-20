@@ -136,7 +136,7 @@ function FreeFrame(_name,_parent){
         
         dom_title.onmousemove = function(e) {//document.onmousemove = function(e) {//dom_title.onmousemove = function(e) {
 
-            if (false == CanMoveWindow) return; //设置为不能移动的话，直接跳出就行了
+            if (false == this.CanMoveWindow) return; //设置为不能移动的话，直接跳出就行了
 
             //是否为可移动状态                　　　　　　　　　　　 　　　　　　　
             if(this.isDrop) {　　　//if(this.isDrop) {//if(_this.isDrop) {//其实这样写是有问题的，这时候的 this 不是 freeframe 而是 dom_title
