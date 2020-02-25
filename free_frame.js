@@ -34,6 +34,8 @@ function FreeFrame(_name,_parent){
     //var CanMoveWindow = true; //本窗口是否能移动，一般是可以的，特殊需要时可固定
     this.CanMoveWindow = true; //本窗口是否能移动，一般是可以的，特殊需要时可固定
 
+    var _self = this; //2020 用来表示控件本身，在所有函数体中都是唯一的，都可以用，而 _this 则是临时的
+
     //--------------------------------------------
     //定义Person类的公开方法(特权方法)，类的公开方法的定义方式是：”this.functionName=function(){.....}“
     this.Create = function(){
@@ -136,7 +138,7 @@ function FreeFrame(_name,_parent){
         
         dom_title.onmousemove = function(e) {//document.onmousemove = function(e) {//dom_title.onmousemove = function(e) {
 
-            if (false == this.CanMoveWindow) return; //设置为不能移动的话，直接跳出就行了
+            if (false == _self.CanMoveWindow) return; //设置为不能移动的话，直接跳出就行了
 
             //是否为可移动状态                　　　　　　　　　　　 　　　　　　　
             if(this.isDrop) {　　　//if(this.isDrop) {//if(_this.isDrop) {//其实这样写是有问题的，这时候的 this 不是 freeframe 而是 dom_title
@@ -319,7 +321,30 @@ function FreeFrame(_name,_parent){
 
         var _this_control = this; //这个控件本身//可以在各个事件中用
 
-        $("#" + _this_control.clientPanel.name).html("<iframe id='his_window' name='his_window' src='" + url + "' frameborder='0' width='100%' height='100%' />");
+        $("#" + _this_control.clientPanel.name).html("<iframe id='" + _self.name + "_src_id' name='his_window' src='" + url + "' frameborder='0' width='100%' height='100%' />");
+
+        //--------------------------------------------------------
+        //目前的 iphone6 这样的，对 iframe 中的内容是不能滚动的
+        //
+        //据说可以在 iphone 下解决 iframe 不滚动的问题
+        // -webkit-overflow-scrolling: touch; /* 当手指从触摸屏上移开，会保持一段时间的滚动 */
+        // -webkit-overflow-scrolling: auto; /* 当手指从触摸屏上移开，滚动会立即停止 */
+
+        //----
+        //也可以这样，但是对于动态页面就可能不合适
+        //<iframe name="iframe2" onload="this.height=iframe2.document.body.scrollHeight" src="iframe2.html" frameborder="0" width="100%"></iframe>
+
+        //----
+        //<!--iframe外层加div 主要css:-webkit-overflow-scrolling:touch;overflow:auto!important;-->
+
+        //----
+        //overflow-y: scroll; 
+        //这两的组合后确实可以，但是在 pc 上会很难看，怎样判断是 pc 呢
+        //改用 overflow-y: auto; 可以解决，但估计这种方式以后肯定是要改的//自己做滑动控件？ 参考 https://blog.csdn.net/zfzhuman123/article/details/90520355
+        $("#" + _this_control.clientPanel.name).css("-webkit-overflow-scrolling", "touch");
+        //$("#" + _this_control.clientPanel.name).css("overflow-y", "scroll");
+        $("#" + _this_control.clientPanel.name).css("overflow-y", "auto");
+
 
     }//
 
