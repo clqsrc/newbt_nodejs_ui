@@ -350,8 +350,14 @@ function Panel(_name,_parent){
 
     }//
     
+    //设置边框，或者某条边框线的颜色
+    this.border_color = function (border, color) {
+        //$("#" + o.name).css({"border-bottom": "1px solid #eee"});
+        $("#" + this.name).css(
+            "border-" + border, "1px solid " + color
 
-
+        );
+    }//
 
 //--------------------------------------------
 
