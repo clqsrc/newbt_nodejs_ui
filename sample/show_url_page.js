@@ -32,19 +32,22 @@
 		
 		////form2.ShowAtBottom("btnShowHis");
 
+		gUrlForm.url = url;
 		gUrlForm.ShowHtml_src(url);
 		
 
 		
 		//美化窗体的 ui 而已
-		FormSkin_gUrlForm(gUrlForm);
+		//FormSkin_gUrlForm(gUrlForm);
+		FormSkin_gUrlForm__ShowUrl_InPage(gUrlForm);
 		
 	}//ShowHisMessage
 
 	
 	//--------------------------------------------------
 	//美化历史窗体的 ui 而已
-	function FormSkin_gUrlForm(form)
+	//给个唯一的函数名，否则会冲突
+	function FormSkin_gUrlForm__ShowUrl_InPage(form)
 	{
 		//$("#" + gHisForm.title.name).css({"background-color":"#eeeeee","font-size":"200%"}); //ok
 		form.title.set_background_color("#f8f8f8", "#f8f8f8");
@@ -132,6 +135,44 @@
             ctx.lineTo((x - sp_width) - sp_left, y - sp_width); //将画笔移到x，y处
             ctx.stroke(); //一定要有这个才画得出线			
  
-		 }//canvas		
+		 }//canvas	
+		 
+		//增加一个弹出窗口按钮
+		FormSkin_gUrlForm__ShowUrl_InPage_newButton(form);
 
 	}//skin
+
+	//增加一个弹出窗口按钮
+	function FormSkin_gUrlForm__ShowUrl_InPage_newButton(form)
+	{
+
+
+        //新按钮
+        var o = new FreePanel(form.name  + "_btnpop", form.title);
+        form.btnPop = o;
+
+        o.Create();
+        o.width("25px");
+		o.height("25px")
+		o.color("#000000");
+        //o.set_background_color("#55000000", "#44000000");  //这个 ie 系解析不了 
+        //o.set_background_color("#555555", "#444444"); 
+        // o.set_background_color("transparent", "transparent");  
+		o.set_background_color_Transparent(); 		
+		o.caption("...");
+		//$('#' + o.name).removeAttr("top");
+		//$('#' + o.name).removeAttr("left");
+		o.free_pos(""); //要先清除掉原来的左对齐
+		o.free_pos_rb("0px");
+		UI_SetCursorAsButton(o);
+
+		var _url = form.url;
+		var _id = o.name + "_ur";
+		o.caption("<a href='"+ _url +"' id='" +_id + "' target='_blank' >...</a>");
+
+		//panel 这些 ui 库默认点击事件是不传递的，所以要让 a 标签起作用的话要打开它
+		UI_EnableUrlClick(o) ;
+		$("#" + _id).css({"color": "#000000"});
+        //$("#" + _id).css({"text-decoration":"underline"});
+		$("#" + _id).css({"text-decoration":"none"});
+	}//
