@@ -359,6 +359,14 @@ function Panel(_name,_parent){
         );
     }//
 
+    this.border_color_all = function (color) {
+        //$("#" + o.name).css({"border-bottom": "1px solid #eee"});
+        $("#" + this.name).css(
+            "border", "1px solid " + color
+
+        );
+    }//
+
 //--------------------------------------------
 
     /*定义私有属性Age的对外公开访问方法*/

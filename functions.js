@@ -675,3 +675,9 @@ function Now_id()
     return currentTime;
 }//
 
+//页面刷新
+function Functions_HtmlRefresh()
+{
+
+	location.reload(true);
+}//

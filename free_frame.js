@@ -345,6 +345,13 @@ function FreeFrame(_name,_parent){
         //$("#" + _this_control.clientPanel.name).css("overflow-y", "scroll");
         $("#" + _this_control.clientPanel.name).css("overflow-y", "auto");
 
+        //-------------------------------------------------------
+        //重要！ 在页面是 <!DOCTYPE html> 的情况下，iframe 的高度会多出 4px, 这时要将它的 display:block; 
+        //参考 http://newbt.net/ms/vdisk/show_bbs.php?id=67B5EEA2BF98395B06E8ABDE110039A8&pid=160
+
+        $("#" + _self.name + "_src_id").css("display", "block");
+        $("#" + _self.name + "_src_id").css("box-sizing", "border-box");
+
 
     }//
 
