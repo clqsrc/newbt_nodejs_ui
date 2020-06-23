@@ -10,7 +10,7 @@
 //取文件的最后修改时间
 //直接参考 showbbs.html 
 //function loadXMLDoc(url) {
-function url_GetLastModified(url) {
+function url_GetLastModified(url, cookie) {
     var xmlhttp;
     var last = null;
     if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -33,6 +33,14 @@ function url_GetLastModified(url) {
     //xmlhttp.open("GET", url, true);
     //xmlhttp.open("HEAD", url, true); //默认异步方式
     xmlhttp.open("HEAD", url, false); //默认异步方式//我们要同步方式
+
+    if (true == cookie) {
+        xmlhttp.withCredentials = true; //2020 //所说这样才可写入跨域的 cookie //参考 https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest/withCredentials
+        //似乎是打开后才可设置
+        //有这个，服务器的 cookie 才会写入客户端，不过这要求服务器能动态设置 "Access-Control-Allow-Origin" ，所以并不适合所有的资源
+    
+    }//if 1 
+
     xmlhttp.send();
 
     //--------------------------------------------------
@@ -50,7 +58,7 @@ function url_GetLastModified(url) {
 
 
 //常用的 get 请求//非异步
-function url_get(url) {
+function url_get(url, cookie) {
     var xmlhttp;
     var last = null;
     if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -74,6 +82,14 @@ function url_get(url) {
     //xmlhttp.open("HEAD", url, true); //默认异步方式
     //xmlhttp.open("HEAD", url, false); //默认异步方式//我们要同步方式
     xmlhttp.open("GET", url, false); //默认异步方式//我们要同步方式
+
+    if (true == cookie) {
+        xmlhttp.withCredentials = true; //2020 //所说这样才可写入跨域的 cookie //参考 https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest/withCredentials
+        //似乎是打开后才可设置
+        //有这个，服务器的 cookie 才会写入客户端，不过这要求服务器能动态设置 "Access-Control-Allow-Origin" ，所以并不适合所有的资源
+    
+    }//if 1 
+
     xmlhttp.send();
 
     //--------------------------------------------------
@@ -85,7 +101,8 @@ function url_get(url) {
 } //
 
 //常用的 get 请求//异步
-function url_get_async(url, func) {
+//function url_get_async(url, func, cookie = false) { //es6 才支持默认参数
+function url_get_async(url, func, cookie) {
     var xmlhttp;
     var last = null;
     if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -111,6 +128,14 @@ function url_get_async(url, func) {
     //xmlhttp.open("HEAD", url, false); //默认异步方式//我们要同步方式
     //xmlhttp.open("GET", url, false); //默认异步方式//我们要同步方式
     xmlhttp.open("GET", url, true); //默认异步方式//我们要异步方式
+
+    if (true == cookie) {
+        xmlhttp.withCredentials = true; //2020 //所说这样才可写入跨域的 cookie //参考 https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest/withCredentials
+        //似乎是打开后才可设置
+        //有这个，服务器的 cookie 才会写入客户端，不过这要求服务器能动态设置 "Access-Control-Allow-Origin" ，所以并不适合所有的资源
+    
+    }//if 1 
+
     xmlhttp.send();
 
     //--------------------------------------------------
@@ -122,7 +147,7 @@ function url_get_async(url, func) {
 } //
 
 //常用的 post 请求//异步 //传递进来的参数要分开使用 function_httpEncode 进行编码
-function url_post_async(url, postData, func, func_error) {
+function url_post_async(url, postData, func, func_error, cookie) {
     var xmlhttp;
     var last = null;
     if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -174,6 +199,13 @@ function url_post_async(url, postData, func, func_error) {
     xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded;");  //open 后才能设置
 
     //-------------------------
+
+    if (true == cookie) {
+        xmlhttp.withCredentials = true; //2020 //所说这样才可写入跨域的 cookie //参考 https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest/withCredentials
+        //似乎是打开后才可设置
+        //有这个，服务器的 cookie 才会写入客户端，不过这要求服务器能动态设置 "Access-Control-Allow-Origin" ，所以并不适合所有的资源
+    
+    }//if 1 
 
     xmlhttp.send(postData); //传递进来的参数要分开使用 function_httpEncode 进行编码
 
