@@ -681,3 +681,33 @@ function Functions_HtmlRefresh()
 
 	location.reload(true);
 }//
+
+//https://tool.chinaz.com/Tools/unixtime.aspx
+//1970 的 unix 时间戳
+function Functions_DateTime2Unix(_date_js)
+{
+    //return Math.round(new Date().getTime()/1000); //getTime()返回数值的单位是毫秒
+    return Math.round(_date_js.getTime()/1000); //getTime()返回数值的单位是毫秒
+}//
+
+function Functions_Unix2DateTime(time_c)
+{
+    var unixTimestamp = new Date(time_c * 1000) 
+    //然后 commonTime = unixTimestamp.toLocaleString()
+
+    return unixTimestamp;
+}//
+
+function Functions_Unix2DateTime(_date_js)
+{
+    //return unixTimestamp.toLocaleString();
+    return _date_js.toLocaleString();
+}
+
+function Functions_Unix2DateTime_String(time_c)
+{
+    var unixTimestamp = new Date(time_c * 1000) 
+    //然后 commonTime = unixTimestamp.toLocaleString()
+
+    return Functions_Unix2DateTime(unixTimestamp);
+}//

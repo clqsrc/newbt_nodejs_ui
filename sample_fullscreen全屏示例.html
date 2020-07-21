@@ -1,0 +1,59 @@
+﻿<html>
+    <meta name="viewport" content="width=device-width, 
+    initial-scale=1.0, 
+    maximum-scale=1.0, 
+    user-scalable=no">
+<head>
+
+    <meta charset="utf-8">
+    <script src="jquery-1.11.3.min.js"></script>
+    <script src="panel.js"></script>
+    <script src="center_panel.js"></script>
+    <script src="center_panel_v2.js"></script>
+    <script src="free_panel.js"></script>
+    <script src="button.js"></script>
+    <script src="edit.js"></script>
+    <script src="arrow.js"></script>
+    <script src="dialogs.js"></script>
+    <script src="dialogs_date.js"></script>
+    <script src="functions.js"></script>
+    <script src="free_functions.js"></script>
+
+    <style type="text/css">
+
+        html,body {
+            margin: 0px;
+            padding: 0px;
+            width: 100%;
+            height: 100%;
+        }
+
+
+    </style>
+
+</head>
+
+
+<body>
+
+<script>
+    //目前的全屏来说还是不能全部靠 js。html、body 这两者的 css 是必须要设置的，否则会有很多兼容问题。
+
+    var t = new FreePanel("root");
+    t.Create();
+    t.set_background_color("#ff0000", "#ff0000");
+    t.width("100px");
+    t.height("100px");
+
+    FullScreen_free(t.name);
+    
+    
+
+</script>
+
+</body>
+
+
+
+
+</html>
