@@ -711,3 +711,32 @@ function Functions_Unix2DateTime_String(time_c)
 
     return Functions_Unix2DateTime(unixTimestamp);
 }//
+
+//判断是否是 jquery 变量
+function is_jquery(obj)
+{
+    //https://www.cnblogs.com/conis/archive/2010/03/20/1720385.html
+
+    //var obj = $("body");
+    if(obj instanceof jQuery){
+        //alert("这是一个jQuery对象");
+        return true;
+    }else{
+        //alert("这是一个其它对象")
+        return false;
+    }
+}//
+
+//取一个 dom 节点，代替 document.getElementById() //太常用了，简化操作而已
+function dom_(id_or_jquery) {
+
+    if (is_jquery(id_or_jquery)) {
+
+        return id_or_jquery[0]; //据说 jquery 是一个数组，取其中一个就行 //也可以用 get(0), 例如 $("#aijquery").get(0);
+    }
+
+    //----
+    var dom_node = document.getElementById(id_or_jquery);
+
+    return dom_node;
+}//

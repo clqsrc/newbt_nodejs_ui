@@ -78,6 +78,12 @@ function FreePanel(_name,_parent){
         $("#" + this.name).css({"right": x});
         $("#" + this.name).css({"bottom": y});
 
+        //https://www.w3school.com.cn/cssref/pr_pos_left.asp
+        //默认值：auto
+        //取消掉 left 和 top 的值
+        $("#" + this.name).css({"left": "auto"});
+        $("#" + this.name).css({"top": "auto"});
+
         //一般还要设置父节点
         if (base_parent == true){
             //$("#" + this.parent.name).css({"position": "absolute"});

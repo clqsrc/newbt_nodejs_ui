@@ -387,7 +387,11 @@ function UI_SetCaptionAsButton(div_id, _caption)
 
 }//
 
-
+//设置一个 dom 节点的提示
+function UI_SetHint(div_id, hint)
+{
+    document.getElementById(div_id).title = hint;
+}//
 
 //--------------------------------------------------------
 
