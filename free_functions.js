@@ -207,7 +207,7 @@ function Div_GetHeight(div_id)
     return h;
 }//
 
-//取 div 宽度//客户端
+//取 div 宽度//客户区,即不包括边框线和边框距离
 function Div_GetWidth_client(div_id)
 {
     var w = $("#" + div_id).width(); // 获得的是该div本身的宽度, (不包含padding,margin,border)
@@ -216,7 +216,7 @@ function Div_GetWidth_client(div_id)
     return w;
 }//
 
-//取 div 高度//客户端
+//取 div 高度//客户区,即不包括边框线和边框距离
 function Div_GetHeight_client(div_id)
 {
     var w = $("#" + div_id).width(); // 获得的是该div本身的宽度, (不包含padding,margin,border)

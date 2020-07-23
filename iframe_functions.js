@@ -16,7 +16,8 @@ function iframe_src(url, id){
     //form2.clientPanel.add_html("<iframe id='his_window' name='his_window' src='' frameborder='0' width='100%' height='100%' />");
 
 
-    var html_ = "<iframe id='" + id + "_src_id' name='his_window' src='" + url + "' frameborder='0' width='100%' height='100%' />";
+    //var html_ = "<iframe id='" + id + "_src_id' name='his_window' src='" + url + "' frameborder='0' width='100%' height='100%' />";
+    var html_ = "<iframe id='" + id + "' name='" + id + "' src='" + url + "' frameborder='0' width='100%' height='100%' />";
 
     //--------------------------------------------------------
     //目前的 iphone6 这样的，对 iframe 中的内容是不能滚动的
@@ -44,6 +45,7 @@ function iframe_src(url, id){
     //重要！ 在页面是 <!DOCTYPE html> 的情况下，iframe 的高度会多出 4px, 这时要将它的 display:block; 
     //参考 http://newbt.net/ms/vdisk/show_bbs.php?id=67B5EEA2BF98395B06E8ABDE110039A8&pid=160
 
+    return html_;
 }//
 
 
