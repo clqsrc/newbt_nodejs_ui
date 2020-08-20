@@ -149,6 +149,9 @@ function Panel(_name,_parent){
             
             //itemRight1.height(h, true); //百分比的高用在 line-height 上会有问题，所以要重新计算一下 
             //不过感觉这些方法很危险，尽量少用
+            //这里有个 bug ，当面板本身是隐藏的时候，这个是错误的，因为设置 "line-height" 得到的高度是错误的。不过这在 firefox 有问题，chrome 下是正确的
+            //根据上面的说法，最好调用这个方法后再用 jquery 自己再设置一下，例如 $("#" + t.name).css({"line-height": "30px"});
+            
             var h = $("#"+this.name).height() + "px";
             $("#" + this.name).css({"line-height": h}); //可以让单行的文字垂直居中//暂时,不好
         } 
